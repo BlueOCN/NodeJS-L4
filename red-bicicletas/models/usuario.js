@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Reserva = require('./reserva');
 var bcrypt = require('bcrypt');
+const crypto = require('crypto');
 var saltRounds = 10;
+
+const Token = require('../models/token');
+const mailer = require('../mailer/mailer');
 
 // var usuarioSchema = new Schema({
 //     nombre: String
@@ -71,6 +75,29 @@ usuarioSchema.methods.reservar = function(biciId, desde, hasta, cb){
         .catch(function (err) {
             console.log(err);
         });
+}
+
+usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
+    const token = new Token({_userId: this.id, token: crypto.randomBytes(16).toString('hex')});
+    const email_destination = this.email;
+    token.save()
+        .then(function () {
+            const mailOptions = {
+                from: '"Christiana Hill" <christiana24@ethereal.email>',
+                to: email_destination,
+                subject: "Verificación de cuenta ✔",
+                text: "Hola,\n\n" + 'Por favor, para verificar su cuenta haga click en el siguiente enlace:\n' + 'http://localhost:3000' + '\/token/confirmation\/' + token.token + '.\n'
+            };
+
+            mailer.sendMail(mailOptions, function (err) {
+                if (err) { return console.log(err.message); }
+                console.log('A verification email has been send to ' + email_destination + '.');
+            });
+        })
+        .catch(function (err) {
+            console.log(err.message);
+        });
+
 }
 
 
