@@ -53,6 +53,16 @@ bicicletaSchema.statics.findByCode = function(aCode, cb){
         });
 };
 
+bicicletaSchema.statics.findById = function(anId, cb){
+    this.findOne({_id: anId})
+        .then(function (result){
+            cb(result)
+        })
+        .catch(function (err){
+            console.log(err);
+        });
+};
+
 bicicletaSchema.statics.removeByCode = function(aCode, cb){
     this.deleteOne({code: aCode})
         .then(function(result){
@@ -63,8 +73,28 @@ bicicletaSchema.statics.removeByCode = function(aCode, cb){
         });
 };
 
+bicicletaSchema.statics.removeById = function(anId, cb){
+    this.deleteOne({_id: anId})
+        .then(function(result){
+            cb(result)
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+};
+
 bicicletaSchema.statics.updateByCode = function(bici, cb) {
     this.updateOne({code: bici.code}, {color: bici.color, modelo: bici.modelo, ubicacion: bici.ubicacion})
+        .then(function(result){
+            cb(result)
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+};
+
+bicicletaSchema.statics.updateById = function(bici, cb) {
+    this.updateOne({_id: bici.id}, {color: bici.color, modelo: bici.modelo, ubicacion: bici.ubicacion})
         .then(function(result){
             cb(result)
         })
