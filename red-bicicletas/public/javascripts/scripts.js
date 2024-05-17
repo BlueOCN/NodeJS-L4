@@ -4,8 +4,6 @@
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
 */
 
-import { map } from "./map";
-
 //
 // Scripts
 // 
@@ -14,13 +12,16 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function
     var navbarShrink = function () {
+        console.log('Navbar');
         const navbarCollapsible = document.body.querySelector('#mainNav');
         if (!navbarCollapsible) {
             return;
         }
         if (window.scrollY === 0) {
+            console.log('Remove');
             navbarCollapsible.classList.remove('navbar-shrink')
         } else {
+            console.log('Add');
             navbarCollapsible.classList.add('navbar-shrink')
         }
 
