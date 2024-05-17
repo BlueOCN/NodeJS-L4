@@ -30,21 +30,22 @@ module.exports = {
             })
     },
     create_get: function (req, res, next) {
-        res.render('usuarios/create', {errors: err.errors, usuario: new Usuario()});
+        res.render('usuarios/create', {errors: {}, usuario: new Usuario()});
+        return;
     },
     create: function (req, res, next) {
         if (req.body.password != req.body.confirm_password){
             res.render('usuarios/create', {errors: {confirm_password: {message: 'no coincide con el password ingresado'}}, usuario: new Usuario({nombre: req.body.nombre, email: req.body.email})});
-            return
+            return;
         }
 
         Usuario.create({ nombre: req.body.nombre, email: req.body.email, password: req.body.password})
-            .then(function (result) {
+            .then(function (nuevoUsuario) {
                 nuevoUsuario.enviar_email_bienvenida();
                 res.redirect('/usuarios');
             })
             .catch(function (err) {
-                res.render('usuario/create', {errors: err.errors, usuario: new Usuario({nombre: req.body.nombre, email: req.body.email})});
+                res.render('usuarios/create', {errors: err.errors, usuario: new Usuario({nombre: req.body.nombre, email: req.body.email})});
             });
     },
     delete: function (req, res, next) {

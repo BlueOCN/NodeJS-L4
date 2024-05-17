@@ -26,7 +26,7 @@ block content
                     td
                         a.btn(href='usuarios/' + usuario.id + '/update') Editar
                     td 
-                        form.inline(method='post' action="usuarios/" + usuario.id + '/delete')
+                        form.inline(method='post' action='usuarios/' + usuario.id + '/delete')
                             input(type='hidden' name='id' value=usuario.id)
-                            button.link-button.btn-danger(type='submit' name='submit_param' value='')
+                            button.link-button.btn-danger(type='submit' name='submit_param' value='submit_value' class='btn')
                                 = 'Eliminar'

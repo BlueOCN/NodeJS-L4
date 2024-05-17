@@ -1,6 +1,6 @@
 extends ../layout
 
-block 
+block content
     a(href='/usuarios') Volver
 
     br
@@ -37,7 +37,6 @@ block
             if errors.confirm_password 
                 small#confirm_passwordHelp.text-danger
                     = errors.confirm_password.message 
-    br
-    br
-    input.btn.btn-primary(type='submit' value='OK')
-       
+        br
+        br
+        input.btn.btn-primary(type='submit' value='OK')
