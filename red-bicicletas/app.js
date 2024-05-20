@@ -16,6 +16,7 @@ var tokenRouter = require('./routes/token');
 
 const store = new session.MemoryStore;
 
+var app = express();
 app.use(session({
   cookie: {maxAge: 240 * 60 * 60 * 1000},
   store: store,
@@ -23,8 +24,6 @@ app.use(session({
   resave: 'true',
   secret: 'red'
 }));
-
-var app = express();
 
 var mongoose = require('mongoose');
 
@@ -51,11 +50,21 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function (req, res, next) {
-  //passport
+  passport.authenticate('local', function (err, usuario, info) {
+    console.log('hi');
+    if (err) {return next(err)}
+    console.log('hi', err, usuario, info)
+    if (!usuario) {return res.render('session/login', {info})}
+    console.log('hi');
+    req.login(usuario, function (err){
+      if (err) return next(err);
+      return res.redirect('/');
+    });
+  })(req,res,next);
 });
 
 app.get('/logout', function (req, res) {
-  //
+  req.logOut();
   res.redirect('/');
 });
 
