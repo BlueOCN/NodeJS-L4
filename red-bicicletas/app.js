@@ -32,13 +32,36 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/login', function(req, res) {
+  res.render('session/login');
+});
+
+app.post('/login', function (req, res, next) {
+  //passport
+});
+
+app.get('/logout', function (req, res) {
+  //
+  res.redirect('/');
+});
+
+app.get('/forgotPassword', function (req, res) {
+  res.render('session/forgotPassword');
+});
+
+app.post('/forgotPassword', function (req, res) {
+  //passport
+});
+
+
+app.use('/usuarios', usuariosRouter);
+app.use('/token', tokenRouter);
+
 app.use('/bicicletas', bicicletasRouter);
 app.use('/api/bicicletas', bicicletasAPIRouter);
 app.use('/api/usuarios', usuariosAPIRouter);
-app.use('/usuarios', usuariosRouter);
-app.use('/token', tokenRouter);
+
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
